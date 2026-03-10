@@ -1,29 +1,38 @@
-//idea	Memory heap
+//idea	Memory leak a prax
 
-// Objekty
-// Funkcie
-// Premenné
-// Closures
+	//note	1.	Globálne premenné
+	//!	-	písať len ak je to nevyhnutné, kvôli memory leaku
 
-//idea Garbage collector
-	//	uvoľnuje pamäť v určitom momente
+	let a = 10; // globálna premenná
+	//bug		a = 10;	takto sa zvykne naznačovať, že sa jedná o globálnu premennú
 
-const garbageCollectorExample = () => {
-	let num1 = 42;
-	let num2 = 100;
+	console.log(a);
 
-	console.log(num1, num2);
-}
-
-garbageCollectorExample();
-
-// Pokarčuje ďalej kód
-
-//idea	Memory heap a memory leak
-	//	Zlý prístup ku garbage collectoru
-
-	const names = ["Tasi", "Harry", "Ron"];
-
-	for (let i = 2; i > 1; i++) {
-		names.push("Hermiona");
+	const myFunction = () => {
+		console.log(a);
 	}
+
+	myFunction();
+
+	console.log(a)
+	
+	//note	2.	Event listener
+	//!	-	pokiaľ ďalej nie je treba, treba ho odstrániť kvôli memory leaku
+	
+	const button = document.querySelector("button");
+	const onClick = () => {
+		console.log("Kliknutie")
+	}
+	button.addEventListener("click", onClick);
+
+	button.removeEventListener("click", onClick);
+
+	//note	3.	SetInterval
+	//!	-	pokiaľ nie je treba, taktiež treba vymazať pre memory leak
+	//		-	každý interval má svoje ID
+	let intervalID = setInterval(() => {
+		console.log("Test");
+	}, 3000);
+
+	console.log(intervalID);
+	clearInterval(intervalID);
